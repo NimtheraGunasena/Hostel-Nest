@@ -55,7 +55,7 @@ export default function Ordersummary() {
           
           // Redirect user to success page
           dispatch(clearCart());
-          navigate('/order-pay-success');
+          navigate('/payment');
         } catch (error) {
           
           setPublishError(error.message || 'Something went wrong');

@@ -1,40 +1,103 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-
+import { useState } from 'react';
+import { FaEdit } from 'react-icons/fa';
 
 export default function OrderSuccess() {
- 
-  useEffect(() => {
-    AOS.init({ duration: 1000 }); // Initialize AOS with a duration of 1000ms
-  }, []);
+  const [cardNumber, setCardNumber] = useState('2412 7512 3412 3456');
+  const [cvv, setCvv] = useState('');
+  const [expiryMonth, setExpiryMonth] = useState('');
+  const [expiryYear, setExpiryYear] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-evenly min-h-screen bg-gray-50 gap-10">
-      {/* Text Section */}
-      <div className="mx-28" data-aos="fade-up">
-        <h1 className="text-3xl font-bold text-green-600 mb-4">
-          Your order is received!
-        </h1>
-        <p className="text-lg text-gray-700 mb-6">
-          We'll contact you soon when your order is ready. Thank you for shopping with us!
-        </p>
-        <Link to='/'>
-          <button className='bg-indigo-500 hover:bg-indigo-600 text-white p-2 rounded-lg px-3'>Home</button>
-        </Link>
-        <Link to='/product-page'>
-          <button className='bg-indigo-500 hover:bg-indigo-600 text-white p-2 rounded-lg px-3 mx-5'>Return</button>
-        </Link>
-      </div>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-semibold text-gray-700">AceCoin<span className="text-blue-600">Pay</span></h2>
+          <div className="flex items-center space-x-1">
+            <span className="text-gray-900 bg-black px-2 py-1 rounded text-white">0</span>
+            <span className="text-gray-900 bg-black px-2 py-1 rounded text-white">1</span>
+            <span className="text-gray-900 bg-black px-2 py-1 rounded text-white">9</span>
+          </div>
+        </div>
 
-      {/* Image Section */}
-      <div className="p-6" data-aos="zoom-in">
-        <img 
-          src="/img/order.png" 
-          alt="Order Success" 
-          className="w-8/12 h-auto mx-24"
-        />
+        {/* Card Number */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600">Card Number</label>
+          <div className="flex items-center border rounded-lg px-3 py-2 mt-1 bg-gray-50">
+            <img
+              src="https://img.icons8.com/color/48/mastercard.png"
+              alt="Card Logo"
+              className="w-8 h-8 mr-2"
+            />
+            <input
+              type="text"
+              value={cardNumber}
+              readOnly
+              className="flex-1 bg-transparent outline-none text-gray-700"
+            />
+            <FaEdit className="text-blue-500 cursor-pointer" />
+          </div>
+        </div>
+
+        {/* CVV Number */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600">CVV Number</label>
+          <div className="flex items-center border rounded-lg px-3 py-2 mt-1 bg-gray-50">
+            <input
+              type="password"
+              value={cvv}
+              onChange={(e) => setCvv(e.target.value)}
+              placeholder="Enter CVV"
+              className="flex-1 bg-transparent outline-none text-gray-700"
+            />
+            <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
+          </div>
+        </div>
+
+        {/* Expiry Date */}
+        <div className="mb-4 flex gap-4">
+          <div className="w-1/2">
+            <label className="block text-sm font-medium text-gray-600">Expiry Month</label>
+            <input
+              type="text"
+              value={expiryMonth}
+              onChange={(e) => setExpiryMonth(e.target.value)}
+              placeholder="MM"
+              className="w-full border rounded-lg px-3 py-2 mt-1 bg-gray-50 outline-none text-gray-700"
+            />
+          </div>
+          <div className="w-1/2">
+            <label className="block text-sm font-medium text-gray-600">Expiry Year</label>
+            <input
+              type="text"
+              value={expiryYear}
+              onChange={(e) => setExpiryYear(e.target.value)}
+              placeholder="YY"
+              className="w-full border rounded-lg px-3 py-2 mt-1 bg-gray-50 outline-none text-gray-700"
+            />
+          </div>
+        </div>
+
+        {/* Password */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-600">Password</label>
+          <div className="flex items-center border rounded-lg px-3 py-2 mt-1 bg-gray-50">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              className="flex-1 bg-transparent outline-none text-gray-700"
+            />
+            <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
+          </div>
+        </div>
+
+        {/* Pay Now Button */}
+        <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
+          Pay Now
+        </button>
       </div>
     </div>
   );

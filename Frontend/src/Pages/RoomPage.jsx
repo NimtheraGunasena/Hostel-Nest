@@ -87,7 +87,7 @@ export default function RoomPage() {
       <div className="flex">
         {/* Sidebar for filters */}
         <aside className="w-1/4 p-4 border-r">
-          <h3 className="text-xl font-semibold mb-4">Filters</h3>
+          <h8 className="text-xl font-bold mb-4">Filters</h8>
           {/* Category Filter */}
           <div className="mb-6">
             <h4 className="text-lg font-semibold mb-2">Room Type</h4>
@@ -110,7 +110,7 @@ export default function RoomPage() {
           </div>
           {/* Price Range Filter */}
           <div>
-            <h4 className="text-lg font-semibold mb-2">Price Range(RS)</h4>
+            <h4 className="text-lg font-semibold mb-2">Price Range(Rs)</h4>
             <ul>
               {["All", "0-8000", "8000-16000", "16000-25000"].map((range) => (
                 <li key={range}>

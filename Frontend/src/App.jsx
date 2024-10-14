@@ -60,6 +60,7 @@ import AdminLayout from './Pages/FoodOrdering/AdminSide/AdminLayout';
 import FoodAdminDashboard from './Pages/FoodOrdering/AdminSide/FoodAdminDashboard';
 import EditProduct from './Pages/FoodOrdering/AdminSide/EditProduct';
 import FoodOrderHistory from './Pages/FoodOrdering/AdminSide/FoodOrderHistory';
+import InventorySummary from './Pages/InventorySummary.jsx';
 
 
 
@@ -94,7 +95,7 @@ export default function App() {
         <Route/>
           <Route path="/cart" element={<Cart/>}/>
           <Route path="/order-summary" element={<Ordersummary/>}/>
-          <Route path="/order-pay-success" element={<OrderSuccess/>}/> 
+          <Route path="/payment" element={<OrderSuccess/>}/> 
           <Route path="/update-order/:id" element = {<UpdateOrder/>}/> 
         <Route />
 
@@ -111,6 +112,7 @@ export default function App() {
         </Route>
 
         <Route path="/roomsummary" element={<RoomIncomeMonthlySummary/>}/>
+        <Route path="/Inventorysummary" element={<InventorySummary/>}/>
         <Route path="/ordermonthlysummary" element={<OrderIncomeMonthlySummary/>}/>
         <Route path="/support" element={<Support/>}/>
         <Route path="/update-ticket/:id" element={<UpdateTicket/>}/>
