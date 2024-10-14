@@ -3,78 +3,169 @@ import { useEffect, useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import html2pdf from "html2pdf.js";
 
 export default function Dashstaff() {
-    const { currentUser } = useSelector((state) => state.user);
-    const [Staffmembers, setmembers] = useState([]);
-    
-    const [showModel , setShowModel] = useState(false);
-    const [memberIDToDelete, setmemberIdToDelete] = useState('');
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedStaffType, setSelectedStaffType] = useState('');  // New state for radio buttons
+  const { currentUser } = useSelector((state) => state.user);
+  const [Staffmembers, setmembers] = useState([]);
 
-    useEffect(() => {
-        const fetchs = async () => {
-          try {
-            const res = await fetch('/api/staff/get');
-            const data = await res.json();
-            if (res.ok) {
-              setmembers(data);
-              console.log(data)
-             
-            }
-          } catch (error) {
-            console.log(error.message);
-          }
-        };
-        if (currentUser.isAdmin) {
-          fetchs();
+  const [showModel, setShowModel] = useState(false);
+  const [memberIDToDelete, setmemberIdToDelete] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedStaffType, setSelectedStaffType] = useState('');  // New state for radio buttons
+
+  useEffect(() => {
+    const fetchs = async () => {
+      try {
+        const res = await fetch('/api/staff/get');
+        const data = await res.json();
+        if (res.ok) {
+          setmembers(data);
+          console.log(data)
+
         }
-      }, []);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    if (currentUser.isAdmin) {
+      fetchs();
+    }
+  }, []);
 
-      const handleSearch = (e) => {
-        setSearchTerm(e.target.value);
-      };
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
-      const handleDeleteProduct = async () => {
-        setShowModel(false);
-        try {
-          const res = await fetch(
-            `/api/staff/delete/${memberIDToDelete}`,
-            {
-              method: 'DELETE',
-            }
-          );
-          const data = await res.json();
-          window.location.href="/dashboard?tab=staff"
-          if (!res.ok) {
-            console.log(data.message); 
-          } 
-        } catch (error) {
-          console.log(error.message);
+  const handleDeleteProduct = async () => {
+    setShowModel(false);
+    try {
+      const res = await fetch(
+        `/api/staff/delete/${memberIDToDelete}`,
+        {
+          method: 'DELETE',
         }
-      };
+      );
+      const data = await res.json();
+      window.location.href = "/dashboard?tab=staff"
+      if (!res.ok) {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-      const handleStaffTypeChange = (e) => {
-        setSelectedStaffType(e.target.value);  // Update the selected staff type when a radio button is clicked
-      };
+  const handleStaffTypeChange = (e) => {
+    setSelectedStaffType(e.target.value);  // Update the selected staff type when a radio button is clicked
+  };
+
+  const generatePDFReport = () => {
+    const content = `
+          <style>
+            table {
+              margin: 0 auto;
+              width: 90%;
+              border-collapse: collapse;
+            }
+            th, td {
+              padding: 8px;
+              text-align: left;
+              border-bottom: 1px solid #ddd;
+            }
+            th {
+              background-color: #f2f2f2;
+              font-size: 12px;
+            }
+            td {
+              font-size: 10px;
+            }
+            .report-title {
+              text-align: center;
+              font-size: 18px;
+              font-weight: bold;
+              margin-top: 20px;
+            }
+            .details {
+              margin-top: 30px;
+              margin-left: 30px;
+            }
+          </style>
       
+          <div>
+            <h1 class="report-title">Staff Members Report</h1>
+            <div class="details">
+              <p>Total Staff Members: ${Staffmembers.length}</p>
+              <p>Selected Staff Type: ${selectedStaffType || 'All'}</p>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Age</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th>Staff Type</th>
+                  <th>Salary</th>
+                  <th>Task</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${Staffmembers.map((member) => `
+                  <tr>
+                    <td>${member.Staffmembername}</td>
+                    <td>${member.Age}</td>
+                    <td>${member.email}</td>
+                    <td>${member.phonenumber}</td>
+                    <td>${member.address}</td>
+                    <td>${member.stafftype}</td>
+                    <td>Rs.${member.salary}.00</td>
+                    <td>${member.task}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+
+    html2pdf()
+      .from(content)
+      .set({
+        margin: 1,
+        filename: 'Staff_Report.pdf',
+        html2canvas: { scale: 2 },
+        jsPDF: { orientation: 'portrait' }
+      })
+      .save();
+  };
+
+
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
-    
+      <div className="mb-4">
+        <Button
+          gradientDuoTone="purpleToBlue"
+          outline
+          onClick={generatePDFReport}
+        >
+          Generate Report
+        </Button>
+      </div>
+
       <input
-          type="text"
-          placeholder="Search members.."
-          value={searchTerm}
-          onChange={handleSearch}
-          className="px-3 py-2 w-150 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 mr-2 h-10 dark:bg-slate-800 placeholder-gray-500"
-          style={{marginLeft:"30%",width:"40%",marginBottom:"30px"}}
+        type="text"
+        placeholder="Search members.."
+        value={searchTerm}
+        onChange={handleSearch}
+        className="px-3 py-2 w-150 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 mr-2 h-10 dark:bg-slate-800 placeholder-gray-500"
+        style={{ marginLeft: "30%", width: "40%", marginBottom: "30px" }}
       />
 
       {/* Radio buttons for selecting staff type */}
       <div className="flex justify-center mb-4">
-      <label className="mr-4">
+        <label className="mr-4">
           <input
             type="radio"
             value=""
@@ -134,7 +225,7 @@ export default function Dashstaff() {
           />
           Laundary staff
         </label>
-        
+
         {/* Add more staff types here if needed */}
       </div>
 
@@ -151,7 +242,7 @@ export default function Dashstaff() {
               <Table.HeadCell>Staff type</Table.HeadCell>
               <Table.HeadCell>Salary</Table.HeadCell>
               <Table.HeadCell>Task</Table.HeadCell>
-          
+
               <Table.HeadCell>Assign task</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
               <Table.HeadCell>Edit</Table.HeadCell>
