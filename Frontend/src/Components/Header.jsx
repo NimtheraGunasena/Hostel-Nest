@@ -67,6 +67,14 @@ export default function Header() {
               Rooms
             </NavLink>
             <NavLink 
+              to="/foodhome" 
+              className={({ isActive }) => 
+                isActive ?"nav-link-active" : "nav-link"
+              }
+            >
+              Foods
+            </NavLink>
+            <NavLink 
               to="/posted-announcements" 
               className={({ isActive }) => 
                 isActive ?"nav-link-active" : "nav-link"

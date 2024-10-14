@@ -16,8 +16,8 @@ import bookingRoute from'./routes/booking.route.js';
 import announcementRoute from "./routes/announcement.route.js";
 import ticketRoute from "./routes/ticket.route.js";
 import supplierRoute from "./routes/supplier.route.js";
-
-
+import foodRoutes from "./routes/Foodroutes.js";
+import pickupRoutes from "./routes/PickupRoutes.js";
 
 
 dotenv.config();
@@ -53,6 +53,8 @@ app.use("/api/order", orderRoute);
 app.use("/api/announcement", announcementRoute);
 app.use("/api/ticket",ticketRoute);
 app.use("/api/supplier", supplierRoute);
+app.use('/api/food', foodRoutes);
+app.use('/api/pickup', pickupRoutes);
 
 
 app.use((err,req,res,next)=>{

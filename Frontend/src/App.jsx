@@ -46,6 +46,23 @@ import DashSupplierRegistration from './Components/DashSupplierRegistration';
 import UpdateSellerRequest from './Pages/UpdateSellerRequest';
 
 
+import FoodHome from './Pages/FoodOrdering/FoodHome'; // Update the import path
+import BreakfastMenu from './Pages/FoodOrdering/BreakfastMenu';
+import DinnerMenu from './Pages/FoodOrdering/DinnerMenu';
+import Pickup from './Pages/FoodOrdering/Pickup';
+import SelectedFoods from './Pages/FoodOrdering/SelectedFoods';
+import LunchMenu from './Pages/FoodOrdering/LunchMenu';
+import BeverageMenu from './Pages/FoodOrdering/BeverageMenu';
+import LoginPage from './Pages/FoodOrdering/LoginPage';
+import FoodAdd from './Pages/FoodOrdering/AdminSide/FoodAdd';
+import ProductList from './Pages/FoodOrdering/AdminSide/ProductList';
+import AdminLayout from './Pages/FoodOrdering/AdminSide/AdminLayout';
+import FoodAdminDashboard from './Pages/FoodOrdering/AdminSide/FoodAdminDashboard';
+import EditProduct from './Pages/FoodOrdering/AdminSide/EditProduct';
+import FoodOrderHistory from './Pages/FoodOrdering/AdminSide/FoodOrderHistory';
+
+
+
 
 export default function App() {
   return (
@@ -92,6 +109,7 @@ export default function App() {
            <Route path="/addproduct" element={<AddProducts/>}/>
            <Route path="/addroom" element={<AddRoom/>}/>
         </Route>
+
         <Route path="/roomsummary" element={<RoomIncomeMonthlySummary/>}/>
         <Route path="/ordermonthlysummary" element={<OrderIncomeMonthlySummary/>}/>
         <Route path="/support" element={<Support/>}/>
@@ -105,6 +123,24 @@ export default function App() {
         <Route path="/suppliers" element={<ApprovedSuppliers/>}/>
         <Route path="/pending-suppliers" element={<DashSupplierRegistration/>}/>
         <Route path="/update-pending-supplier/:id" element={<UpdateSellerRequest/>}/>
+
+        <Route path="/foodhome" element={<FoodHome />} />
+        <Route path="/breakfirstmenu" element={<BreakfastMenu/>}/>
+        <Route path="/dinnermenu" element={<DinnerMenu/>}/>
+        <Route path="/pickup" element={<Pickup/>}/>
+        <Route path="/selectedfoods" element={<SelectedFoods/>}/>
+        <Route path="/lunchmenu" element={<LunchMenu/>}/>
+        <Route path="/beveragemenu" element={<BeverageMenu/>}/>
+        <Route path="/foodadminlogin" element={<LoginPage/>}/>
+        
+          <Route path='adminlayout' element={<AdminLayout />}>
+            <Route index element={<FoodAdminDashboard/>}/>
+            {/* <Route path="adminprofile" element={<AdminProfile/>}/> */}
+            <Route path="foodadd" element={<FoodAdd/>}/>
+            <Route path="productlist" element={<ProductList/>}/>
+            <Route path="editproduct/:productId" element={<EditProduct/>}/>
+            <Route path="foodorderhistory" element={<FoodOrderHistory/>}/>
+          </Route>
 
       </Routes>
       <Footer />
