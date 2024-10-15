@@ -100,6 +100,10 @@ export default function Header() {
             >
               Become Supplier
             </NavLink>
+            {/* New Staff Button */}
+            <NavLink to="/staff" className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}>
+              Staff
+            </NavLink>
           </div>
 
           {/* User controls */}

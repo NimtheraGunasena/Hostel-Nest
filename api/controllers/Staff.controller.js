@@ -61,10 +61,10 @@ export const getstaff = async(req,res,next)=>{
       console.log(err);
   })
   
- 
-
-
 }
+
+
+
 
 export const Delete= async(req,res,next)=>{
    let userId = req.params.id;

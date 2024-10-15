@@ -73,5 +73,5 @@ const staffSchema = new mongoose.Schema({
    
 },{timestamps:true})
 
-const staff = mongoose.model('Staff',staffSchema);
+const staff = mongoose.model('Staffs',staffSchema);
 export default staff;
